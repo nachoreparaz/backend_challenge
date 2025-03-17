@@ -1,5 +1,5 @@
-import { CreateOptions, FindOptions, Model, ModelStatic, UpdateOptions } from "sequelize";
-import { IContactUpdateBody } from "../types";
+import { CreateOptions, FindOptions, Model, ModelStatic, UpdateOptions, WhereOptions } from "sequelize";
+import { IContactAttributes, IContactUpdateBody } from "../types";
 
 export default class PosgresRepository<T extends Model> {
   #model: ModelStatic<T>;
@@ -24,6 +24,17 @@ export default class PosgresRepository<T extends Model> {
 
   async update (id: number, contact: IContactUpdateBody){
     return await this.#model.update(contact, {
+      where: { 
+        id,
+        active: true,
+      }as WhereOptions<IContactAttributes>
+    });
+  }
+
+  async deactivate (id: number){
+    return await this.#model.update({
+      active: false
+    }, {
       where: { id },
     } as UpdateOptions);
   }

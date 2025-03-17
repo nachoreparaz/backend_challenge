@@ -42,7 +42,14 @@ export default class ContactRepository extends PosgresRepository<InstanceType<ty
 
   updateContact = async (id: number, contact: IContactUpdateBody): Promise<void> => {
     try {
-      await this.update(id, contact);
+      const contact_updated = await this.update(id, contact);
+      if(contact_updated[0] === 0){
+        throw new NotFound({
+          message: `Contact Not Found: ${id}`,
+          logMessage: `Contact Not Found: ${id}`,
+          serviceName: 'ContactRepository retrieveById'
+        });
+      }
     } catch (error) {
       if(error instanceof UniqueConstraintError){
         const message = error.errors[0].message;
@@ -51,15 +58,20 @@ export default class ContactRepository extends PosgresRepository<InstanceType<ty
           logMessage: message
         })
       }
+      if(error instanceof NotFound) throw error;
+
       throw new SequelizeError({});
     }
   }
 
   deleteContact = async (id: number): Promise<void> => {
     try {
-      
+      await this.deactivate(id);
     } catch (error) {
-      
+      if(error instanceof NotFound){
+        throw error;
+      }
+      throw new SequelizeError({});
     }
   }
 

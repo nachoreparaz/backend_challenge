@@ -29,4 +29,13 @@ export default class ContactService {
       return error;
     }
   }
+
+  delete = async (id: number) => {
+    try {
+      await this.#repository.deleteContact(id);
+    } catch (error) {
+      return error;
+    }
+  }
+
 }

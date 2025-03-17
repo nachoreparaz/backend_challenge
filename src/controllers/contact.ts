@@ -46,4 +46,17 @@ export default class ContactController {
 
     res.sendStatus(200);
   }
+
+  delete = async (req: Request, res: Response, next: NextFunction) => {
+    const { contactId } = req.params;
+
+    const parsedContactId = Number(contactId);
+    const contact_delete = await this.#service.delete(parsedContactId);
+
+    if(contact_delete instanceof Error){
+      return next(contact_delete);
+    }
+
+    res.sendStatus(204);
+  }
 }

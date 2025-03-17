@@ -20,6 +20,7 @@ export default class ContactRouter {
     this.router.get(ROUTES.GET_CONTACT, this.validations.validateId, this.#controller.get);
     this.router.post(ROUTES.CREATE_CONTACT, this.validations.postContactBody, this.#controller.create);
     this.router.patch(ROUTES.UPDATE_CONTACT, this.validations.validateId, this.#controller.update);
+    this.router.delete(ROUTES.DELETE_CONTACT, this.validations.validateId, this.#controller.delete);
   }
 
   public getRouter() {
