@@ -1,6 +1,6 @@
 import PosgresRepository from "./pg";
 import { Address, Contact } from "../model/contact";
-import { IContactRepository, IContactCreationBody } from "../types";
+import { IContactRepository, IContactCreationBody, IContactUpdateBody } from "../types";
 import { UniqueConstraintError }  from "sequelize";
 import { NotFound, SequelizeError, SequelizeUniqueConstraintError } from "../errors";
 
@@ -26,9 +26,7 @@ export default class ContactRepository extends PosgresRepository<InstanceType<ty
 
   createContact = async (contact: IContactCreationBody): Promise<IContactCreationBody> => {
     try {
-      const contact_creation = await this.create(contact, {
-        include: [{ model: Address, as: "address" }],
-      });
+      const contact_creation = await this.create(contact, { include: [{ model: Address, as: "address" }]});
       return this.mapResponseFromPg(contact_creation);
     } catch (error) {
       if(error instanceof UniqueConstraintError){
@@ -39,6 +37,29 @@ export default class ContactRepository extends PosgresRepository<InstanceType<ty
         })
       }
       throw new SequelizeError({});
+    }
+  }
+
+  updateContact = async (id: number, contact: IContactUpdateBody): Promise<void> => {
+    try {
+      await this.update(id, contact);
+    } catch (error) {
+      if(error instanceof UniqueConstraintError){
+        const message = error.errors[0].message;
+        throw new SequelizeUniqueConstraintError({
+          message: message,
+          logMessage: message
+        })
+      }
+      throw new SequelizeError({});
+    }
+  }
+
+  deleteContact = async (id: number): Promise<void> => {
+    try {
+      
+    } catch (error) {
+      
     }
   }
 

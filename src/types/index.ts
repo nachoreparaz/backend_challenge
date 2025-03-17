@@ -1,7 +1,10 @@
 import { Optional } from "sequelize";
 
 export interface IContactRepository {
+  retrieveById: (id: number) => Promise<IContactCreationBody>;
   createContact: (contact: IContactCreationBody) => Promise<IContactCreationBody>;
+  updateContact: (id: number, contact: IContactUpdateBody) => Promise<void>;
+  deleteContact: (id: number) => Promise<void>;
 }
 
 export interface IContactAttributes {
@@ -32,6 +35,8 @@ export interface IAddressCreationAttributesBody extends Optional<IAddressAttribu
 export interface IContactCreationBody extends Optional<IContactAttributes, 'id' | 'active'> {
   address: IAddressCreationAttributesBody
 };
+
+export interface IContactUpdateBody extends Partial<IContactCreationBody> {};
 
 export interface IError {
   message?: string;

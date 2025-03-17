@@ -4,18 +4,18 @@ import { InputError } from "../errors";
 
 export default class Validations {
 
-  getById = (req: Request, _res: Response, next: NextFunction) => {
+  validateId = (req: Request, _res: Response, next: NextFunction) => {
     const { contactId } = req.params;
     if(!contactId) throw new InputError({
       message: 'Must send param: contactId',
       logMessage: 'Must send param: contactId',
-      serviceName: 'Validations - getById'
+      serviceName: 'Validations - validateId'
     });
 
     if(isNaN(Number(contactId))) throw new InputError({
       message: 'contactId wrong format',
       logMessage: 'contactId wrong format',
-      serviceName: 'Validations - getById'
+      serviceName: 'Validations - validateId'
     });
     next();
   }

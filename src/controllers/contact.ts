@@ -32,4 +32,18 @@ export default class ContactController {
 
     res.status(201).send(contact_creation);
   }
+
+  update = async(req: Request, res: Response, next: NextFunction) => {
+    const { contactId } = req.params;
+    const contact = req.body;
+
+    const parsedContactId = Number(contactId);
+    const contact_update = await this.#service.update(parsedContactId, contact);
+
+    if(contact_update instanceof Error){
+      return next(contact_update);
+    }
+
+    res.sendStatus(200);
+  }
 }

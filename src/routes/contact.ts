@@ -17,8 +17,9 @@ export default class ContactRouter {
 
   initializeRoutes = () => {
     this.router.get('/health', (_req, res) => { res.send('Welcome') });
-    this.router.get(ROUTES.GET_CONTACT, this.validations.getById, this.#controller.get);
+    this.router.get(ROUTES.GET_CONTACT, this.validations.validateId, this.#controller.get);
     this.router.post(ROUTES.CREATE_CONTACT, this.validations.postContactBody, this.#controller.create);
+    this.router.patch(ROUTES.UPDATE_CONTACT, this.validations.validateId, this.#controller.update);
   }
 
   public getRouter() {

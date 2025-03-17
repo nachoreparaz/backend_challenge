@@ -1,4 +1,5 @@
-import { CreateOptions, FindOptions, Model, ModelStatic } from "sequelize";
+import { CreateOptions, FindOptions, Model, ModelStatic, UpdateOptions } from "sequelize";
+import { IContactUpdateBody } from "../types";
 
 export default class PosgresRepository<T extends Model> {
   #model: ModelStatic<T>;
@@ -9,12 +10,21 @@ export default class PosgresRepository<T extends Model> {
 
   async findById(id: number, options ?: FindOptions){
     return await this.#model.findOne({
-      where: { id }, 
+      where: { 
+        id,
+        active: true
+      }, 
       ...options,
     });
   }
 
-  async create (contact: T["_creationAttributes"], options ?: CreateOptions): Promise<T>{
+  async create (contact: T["_creationAttributes"], options ?: CreateOptions){
     return await this.#model.create(contact, options);
+  }
+
+  async update (id: number, contact: IContactUpdateBody){
+    return await this.#model.update(contact, {
+      where: { id },
+    } as UpdateOptions);
   }
 }
