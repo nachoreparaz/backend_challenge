@@ -1,3 +1,4 @@
+import { NextFunction, Request, Response } from "express";
 import { IError } from "./types";
 
 
@@ -60,10 +61,18 @@ class SequelizeUniqueConstraintError extends GeneralError {
   }
 }
 
+const errorHandler = (err: IError, _req: Request, res: Response, next: NextFunction) => {
+    res.status(err.statusCode || 500).send({
+      success: false,
+      message: err.message || "Internal Server Error",
+    });
+}
+
 export {
   GeneralError,
   NotFound,
   InputError,
   SequelizeError,
-  SequelizeUniqueConstraintError
+  SequelizeUniqueConstraintError,
+  errorHandler
 }

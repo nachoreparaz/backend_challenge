@@ -7,7 +7,13 @@ export default class ContactService {
   constructor(repository: ContactRepository){
     this.#repository = repository;
   }
-
+  retrieveById = async (id: number) => {
+    try {
+      return await this.#repository.retrieveById(id);
+    } catch (error) {
+      return error;
+    }
+  }
   create = async (contact: IContactCreationBody) => {
     try {
       return await this.#repository.createContact(contact);

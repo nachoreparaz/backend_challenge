@@ -3,16 +3,32 @@ import { IAddressCreationAttributesBody } from "../types";
 import { InputError } from "../errors";
 
 export default class Validations {
+
+  getById = (req: Request, _res: Response, next: NextFunction) => {
+    const { contactId } = req.params;
+    if(!contactId) throw new InputError({
+      message: 'Must send param: contactId',
+      logMessage: 'Must send param: contactId',
+      serviceName: 'Validations - getById'
+    });
+
+    if(isNaN(Number(contactId))) throw new InputError({
+      message: 'contactId wrong format',
+      logMessage: 'contactId wrong format',
+      serviceName: 'Validations - getById'
+    });
+    next();
+  }
+
   postContactBody = (req: Request, _res: Response, next: NextFunction): void => {
     const contact = req.body;
-    this.validateName(contact.name);
-    this.validateEmail(contact.email);
-    this.validatePhone(contact.phone);
-    this.validateCompany(contact.company);
-    this.validateBirthdate(contact.birthdate);
-    this.validateAddress(contact.address);
-
-    next();
+      this.validateName(contact.name);
+      this.validateEmail(contact.email);
+      this.validatePhone(contact.phone);
+      this.validateCompany(contact.company);
+      this.validateBirthdate(contact.birthdate);
+      this.validateAddress(contact.address);
+      next();
   }
 
   validateName = (name: string) => {
