@@ -15,7 +15,7 @@ services:
     environment:
       POSTGRES_USER: ignacio
       POSTGRES_PASSWORD: ignacio123
-      POSTGRES_DB: easychallenge
+      POSTGRES_DB: LaNacion
     ports:
       - "5432:5432"
     volumes:
