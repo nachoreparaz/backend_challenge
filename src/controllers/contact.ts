@@ -1,6 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import ContactService from "../services/contact";
-import { IContactCreationBody } from "../types";
+import { IContactCreationBody, QueryStrategy } from "../types";
+import CityQueryStrategy from "../repository/cityQuery";
+import { InvalidBodyError } from "../errors";
 
 export default class ContactController {
   #service: ContactService;
@@ -58,5 +60,25 @@ export default class ContactController {
     }
 
     res.sendStatus(204);
+  }
+
+  customGetAll = async (req: Request, res: Response, next: NextFunction) => {
+    const { city } = req.body;
+
+    let strategy: QueryStrategy;
+
+    if(city){
+      strategy = new CityQueryStrategy(city);
+    }else{
+      return next(new InvalidBodyError({}));
+    }
+
+    const contact = await this.#service.customFindAll(strategy);
+
+    if(contact instanceof Error){
+      return next(contact);
+    }
+
+    res.status(200).send(contact);
   }
 }

@@ -1,5 +1,5 @@
 import ContactRepository from "../repository/contact";
-import { IContactCreationBody, IContactUpdateBody } from "../types";
+import { IContactCreationBody, IContactUpdateBody, QueryStrategy } from "../types";
 
 export default class ContactService {
   #repository: ContactRepository;
@@ -34,6 +34,15 @@ export default class ContactService {
     try {
       await this.#repository.deleteContact(id);
     } catch (error) {
+      return error;
+    }
+  }
+
+  customFindAll = async (strategy: QueryStrategy) => {
+    try {
+      return await this.#repository.customRetrieveAll(strategy);
+    } catch (error) {
+      console.log(error)
       return error;
     }
   }

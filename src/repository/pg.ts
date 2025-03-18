@@ -1,5 +1,5 @@
 import { CreateOptions, FindOptions, Model, ModelStatic, UpdateOptions, WhereOptions } from "sequelize";
-import { IContactAttributes, IContactUpdateBody } from "../types";
+import { IContactAttributes, IContactUpdateBody, QueryStrategy } from "../types";
 
 export default class PosgresRepository<T extends Model> {
   #model: ModelStatic<T>;
@@ -37,5 +37,10 @@ export default class PosgresRepository<T extends Model> {
     }, {
       where: { id },
     } as UpdateOptions);
+  }
+
+  async customFindAll(queryBuilder: QueryStrategy){
+    const query = queryBuilder.buildQuery();
+    return await this.#model.findAll(query);
   }
 }

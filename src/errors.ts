@@ -38,6 +38,16 @@ class InputError extends GeneralError {
     });
   }
 }
+class InvalidBodyError extends GeneralError {
+  constructor(error: IError) {
+    super({
+        statusCode: 400,
+        message: error.message || 'Invalid body parameters',
+        logMessage: error.logMessage || 'Invalid body parameters',
+        serviceName: error.serviceName,
+    });
+  }
+}
 
 class SequelizeError extends GeneralError {
   constructor(error: IError) {
@@ -62,6 +72,7 @@ class SequelizeUniqueConstraintError extends GeneralError {
 }
 
 const errorHandler = (err: IError, _req: Request, res: Response, next: NextFunction) => {
+    console.log(err);
     res.status(err.statusCode || 500).send({
       success: false,
       message: err.message || "Internal Server Error",
@@ -74,5 +85,6 @@ export {
   InputError,
   SequelizeError,
   SequelizeUniqueConstraintError,
-  errorHandler
+  errorHandler,
+  InvalidBodyError
 }

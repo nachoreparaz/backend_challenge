@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { IAddressCreationAttributesBody } from "../types";
 import { InputError } from "../errors";
+import { next } from "cheerio/lib/api/traversing";
 
 export default class Validations {
 
@@ -82,10 +83,22 @@ export default class Validations {
 
     if(!address.city || !address.country || !address.number || !address.street){
       if(!address) throw new InputError({
-        message: 'One of the following fields are empty: city, country, number, street',
-        logMessage: 'One of the following fields are empty: city, country, number, street',
+        message: 'One of the following fields are empty in address object: city, country, number, street',
+        logMessage: 'One of the following fields are empty in address object: city, country, number, street',
         serviceName: 'Validations - validateAddress'
       });
     }
   }
+
+  validateCity = (req: Request, _res: Response, next: NextFunction) => {
+    const city = req.body;
+    if(!city) throw new InputError({
+      message: 'Must complete field: city',
+      logMessage: 'Must complete field: city',
+      serviceName: 'Validations - validateCity'
+    });
+    
+    next();
+  }
+
 }

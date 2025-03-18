@@ -44,3 +44,6 @@ export interface IError {
   statusCode?: number;
   serviceName?: string;
 };
+export interface QueryStrategy {
+  buildQuery(): object;
+}
