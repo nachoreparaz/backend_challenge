@@ -32,6 +32,18 @@ export default class Validations {
       next();
   }
 
+  getByEmail = (req: Request, _res: Response, next: NextFunction): void => {
+    const contact = req.body;
+    this.validateEmail(contact.email);
+    next();
+  }
+
+  getByPhone = (req: Request, _res: Response, next: NextFunction): void => {
+    const contact = req.body;
+    this.validatePhone(contact.phone);
+    next();
+  }
+
   validateName = (name: string) => {
     if(!name) throw new InputError({
       message: 'Must complete field: name',

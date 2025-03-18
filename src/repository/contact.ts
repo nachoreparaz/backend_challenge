@@ -84,6 +84,24 @@ export default class ContactRepository extends PosgresRepository<InstanceType<ty
     }
   }
 
+  customRetrieveOne = async (strategy: QueryStrategy) => {
+    try {
+      const contact = await this.customFindOne(strategy);
+      if(!contact) throw new NotFound({
+        message: `Contact Not Found`,
+        logMessage: `Contact Not Found`,
+        serviceName: 'ContactRepository customRetrieveOne'
+      });
+
+      return this.mapResponseFromPg(contact);
+    } catch (error) {
+      if(error instanceof NotFound){
+        throw error;
+      }
+      throw new SequelizeError({});
+    }
+  }
+
   mapResponseFromPg = (contact: Contact): IContactCreationBody => {
     return {
       name: contact.name,

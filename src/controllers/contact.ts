@@ -3,6 +3,8 @@ import ContactService from "../services/contact";
 import { IContactCreationBody, QueryStrategy } from "../types";
 import CityQueryStrategy from "../repository/cityQuery";
 import { InvalidBodyError } from "../errors";
+import EmailQueryStrategy from "../repository/emailQuery";
+import PhoneQueryStrategy from "../repository/phoneQuery";
 
 export default class ContactController {
   #service: ContactService;
@@ -74,6 +76,28 @@ export default class ContactController {
     }
 
     const contact = await this.#service.customFindAll(strategy);
+
+    if(contact instanceof Error){
+      return next(contact);
+    }
+
+    res.status(200).send(contact);
+  }
+
+  customGetOne = async (req: Request, res: Response, next: NextFunction) => {
+    const { email, phone } = req.body;
+
+    let strategy: QueryStrategy;
+
+    if(email){
+      strategy = new EmailQueryStrategy(email);
+    }else if(phone){
+      strategy = new PhoneQueryStrategy(phone);
+    } else{
+      return next(new InvalidBodyError({}));
+    }
+    
+    const contact = await this.#service.customFindOne(strategy);
 
     if(contact instanceof Error){
       return next(contact);

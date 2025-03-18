@@ -43,4 +43,9 @@ export default class PosgresRepository<T extends Model> {
     const query = queryBuilder.buildQuery();
     return await this.#model.findAll(query);
   }
+
+  async customFindOne(queryBuilder: QueryStrategy){
+    const query = queryBuilder.buildQuery();
+    return await this.#model.findOne(query);
+  }
 }

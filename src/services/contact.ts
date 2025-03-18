@@ -42,7 +42,14 @@ export default class ContactService {
     try {
       return await this.#repository.customRetrieveAll(strategy);
     } catch (error) {
-      console.log(error)
+      return error;
+    }
+  }
+
+  customFindOne = async (strategy: QueryStrategy) => {
+    try {
+      return await this.#repository.customRetrieveOne(strategy);
+    } catch (error) {
       return error;
     }
   }
