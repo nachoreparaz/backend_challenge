@@ -11,7 +11,6 @@ import ContactRepository from './repository/contact';
 import ContactController from './controllers/contact';
 import ContactRouter from './routes/contact';
 import Validations from './middleware/validations';
-import { IError } from './types';
 
 const app = express();
 
