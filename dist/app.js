@@ -15,9 +15,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const helmet_1 = __importDefault(require("helmet"));
 const config_1 = require("./utils/config");
+const postgres_1 = __importDefault(require("./database/postgres"));
+const redis_1 = __importDefault(require("./database/redis"));
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use((0, helmet_1.default)());
+(0, postgres_1.default)();
+(0, redis_1.default)();
 app.listen(config_1.CONFIG.PORT, () => __awaiter(void 0, void 0, void 0, function* () {
     console.log(`Server listening on port: ${config_1.CONFIG.PORT}`);
 }));
