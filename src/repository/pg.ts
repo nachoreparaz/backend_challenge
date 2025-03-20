@@ -1,5 +1,5 @@
 import { CreateOptions, FindOptions, Model, ModelStatic, UpdateOptions, WhereOptions } from "sequelize";
-import { IContactAttributes, IContactUpdateBody, QueryStrategy } from "../types";
+import { IContactAttributes, IContactUpdateBody, IUserAttributes, QueryStrategy } from "../types";
 
 export default class PosgresRepository<T extends Model> {
   #model: ModelStatic<T>;
@@ -8,12 +8,9 @@ export default class PosgresRepository<T extends Model> {
     this.#model = model;
   }
 
-  async findById(id: number, options ?: FindOptions){
+  async findById(whereCluse: WhereOptions<IContactAttributes | IUserAttributes>, options ?: FindOptions){
     return await this.#model.findOne({
-      where: { 
-        id,
-        active: true
-      }, 
+      where: whereCluse, 
       ...options,
     });
   }
@@ -22,12 +19,9 @@ export default class PosgresRepository<T extends Model> {
     return await this.#model.create(contact, options);
   }
 
-  async update (id: number, contact: IContactUpdateBody){
+  async update (whereCluse: WhereOptions<IContactAttributes | IUserAttributes>, contact: IContactUpdateBody){
     return await this.#model.update(contact, {
-      where: { 
-        id,
-        active: true,
-      }as WhereOptions<IContactAttributes>
+      where: whereCluse as WhereOptions<IContactAttributes>
     });
   }
 

@@ -8,7 +8,7 @@ export default class ContactRepository extends PosgresRepository<InstanceType<ty
 
   retrieveById = async (id: number): Promise<IContactCreationBody> => {
     try {
-      const contact = await this.findById(id, { include: [{ model: Address, as: "address" }]});
+      const contact = await this.findById({id, active: true}, { include: [{ model: Address, as: "address" }]});
       if(!contact) throw new NotFound({
         message: `Contact Not Found: ${id}`,
         logMessage: `Contact Not Found: ${id}`,
@@ -42,7 +42,7 @@ export default class ContactRepository extends PosgresRepository<InstanceType<ty
 
   updateContact = async (id: number, contact: IContactUpdateBody): Promise<void> => {
     try {
-      const contact_updated = await this.update(id, contact);
+      const contact_updated = await this.update({id, active: true}, contact);
       if(contact_updated[0] === 0){
         throw new NotFound({
           message: `Contact Not Found: ${id}`,
