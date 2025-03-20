@@ -11,6 +11,11 @@ import ContactRepository from './repository/contact';
 import ContactController from './controllers/contact';
 import ContactRouter from './routes/contact';
 import Validations from './middleware/validations';
+import UserRepository from './repository/user';
+import { User } from './model/user';
+import UserService from './services/user';
+import UserController from './controllers/user';
+import UserRouter from './routes/user';
 
 const app = express();
 
@@ -21,11 +26,20 @@ console.clear();
 initPgDb();
 initRedisCache();
 
+const userRepository = new UserRepository(User);
+const userService = new UserService(userRepository);
+const userController = new UserController(userService);
+
+const validationMiddleware = new Validations();
+
+const userRouter = new UserRouter(userController, validationMiddleware);
+
+app.use('/users', userRouter.getRouter())
+
 const contactRepository = new ContactRepository(Contact);
 const contactService = new ContactService(contactRepository);
 const contactController = new ContactController(contactService);
 
-const validationMiddleware = new Validations();
 
 const contactRouter = new ContactRouter(contactController, validationMiddleware);
 

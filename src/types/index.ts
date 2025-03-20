@@ -18,6 +18,16 @@ export interface IContactAttributes {
   active: boolean;
 };
 
+export interface IUserAttributes {
+  id: number;
+  email: string;
+  password: string;
+};
+
+export interface IUserCreationAttributes extends Optional<IUserAttributes, 'id'>{};
+
+export interface IUserBody extends Optional<IUserAttributes, 'id'>{};
+
 export interface IContactCreationAttributes extends Optional<IContactAttributes, 'id' | 'active'> {};
 
 export interface IAddressAttributes {

@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { IAddressCreationAttributesBody } from "../types";
 import { InputError } from "../errors";
-import { next } from "cheerio/lib/api/traversing";
 
 export default class Validations {
 
@@ -110,6 +109,29 @@ export default class Validations {
       serviceName: 'Validations - validateCity'
     });
     
+    next();
+  }
+
+  validateUserRegistration = (req: Request, _res: Response, next: NextFunction) => {
+    const {email, password} = req.body;
+    if(!email) throw new InputError({
+      message: 'Must complete field: email',
+      logMessage: 'Must complete field: email',
+      serviceName: 'Validations - validateUserRegistration'
+    });
+    
+    if(!password) throw new InputError({
+      message: 'Must complete field: password',
+      logMessage: 'Must complete field: password',
+      serviceName: 'Validations - validateUserRegistration'
+    });
+
+    if(typeof password != 'string') throw new InputError({
+      message: 'Invalid password format',
+      logMessage: 'Invalid password format',
+      serviceName: 'Validations - validateUserRegistration'
+    });
+
     next();
   }
 

@@ -6,3 +6,4 @@ export const GET_BY_CITY = CREATE_CONTACT + '/city';
 export const GET_BY_EMAIL = CREATE_CONTACT + '/email';
 export const GET_BY_PHONE = CREATE_CONTACT + '/phone';
 
+export const REGISTER = '/register';

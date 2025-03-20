@@ -15,12 +15,12 @@ export default class PosgresRepository<T extends Model> {
     });
   }
 
-  async create (contact: T["_creationAttributes"], options ?: CreateOptions){
-    return await this.#model.create(contact, options);
+  async create (obj: T["_creationAttributes"], options ?: CreateOptions){
+    return await this.#model.create(obj, options);
   }
 
-  async update (whereCluse: WhereOptions<IContactAttributes | IUserAttributes>, contact: IContactUpdateBody){
-    return await this.#model.update(contact, {
+  async update (whereCluse: WhereOptions<IContactAttributes | IUserAttributes>, obj: IContactUpdateBody){
+    return await this.#model.update(obj, {
       where: whereCluse as WhereOptions<IContactAttributes>
     });
   }
