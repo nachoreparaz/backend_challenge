@@ -17,6 +17,7 @@ export default class UserRouter {
 
   initializeRoutes = () => {
     this.router.post(ROUTES.REGISTER, this.validations.validateUserRegistration, this.#controller.register);
+    this.router.post(ROUTES.LOGIN, this.validations.validateUserRegistration, this.#controller.login);
   }
 
   public getRouter() {

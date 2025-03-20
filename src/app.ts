@@ -16,6 +16,7 @@ import { User } from './model/user';
 import UserService from './services/user';
 import UserController from './controllers/user';
 import UserRouter from './routes/user';
+import validateJWT from './utils/validateJWT';
 
 const app = express();
 
@@ -34,7 +35,9 @@ const validationMiddleware = new Validations();
 
 const userRouter = new UserRouter(userController, validationMiddleware);
 
-app.use('/users', userRouter.getRouter())
+app.use('/users', userRouter.getRouter());
+
+app.use(validateJWT);
 
 const contactRepository = new ContactRepository(Contact);
 const contactService = new ContactService(contactRepository);

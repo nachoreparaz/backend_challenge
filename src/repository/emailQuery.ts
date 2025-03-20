@@ -2,7 +2,7 @@ import { Address } from "../model/contact";
 import { QueryStrategy } from "../types";
 
 export default class EmailQueryStrategy implements QueryStrategy {
-  private email: string;
+  public email: string;
 
   constructor(email: string) {
     this.email = email;

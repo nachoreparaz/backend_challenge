@@ -71,6 +71,17 @@ class SequelizeUniqueConstraintError extends GeneralError {
   }
 }
 
+class AuthError extends GeneralError {
+  constructor(error: IError) {
+    super({
+        statusCode: error.statusCode || 401,
+        message: error.message || 'Invalid email or password',
+        logMessage: error.logMessage || 'Invalid email or password',
+        serviceName: error.serviceName,
+    });
+  }
+}
+
 const errorHandler = (err: IError, _req: Request, res: Response, next: NextFunction) => {
     console.log(err);
     res.status(err.statusCode || 500).send({
@@ -86,5 +97,6 @@ export {
   SequelizeError,
   SequelizeUniqueConstraintError,
   errorHandler,
-  InvalidBodyError
+  InvalidBodyError,
+  AuthError,
 }
