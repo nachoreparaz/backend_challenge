@@ -3,6 +3,7 @@ import { IAddressCreationAttributesBody } from "../types";
 import { InputError } from "../errors";
 
 export default class Validations {
+  emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
   validateId = (req: Request, _res: Response, next: NextFunction) => {
     const { contactId } = req.params;
@@ -55,6 +56,12 @@ export default class Validations {
     if(!email) throw new InputError({
       message: 'Must complete field: email',
       logMessage: 'Must complete field: email',
+      serviceName: 'Validations - validateEmail'
+    });
+
+    if (!this.emailRegex.test(email)) throw new InputError({
+      message: 'Invalid format: email',
+      logMessage: 'Invalid format: email',
       serviceName: 'Validations - validateEmail'
     });
   }
@@ -118,6 +125,12 @@ export default class Validations {
       message: 'Must complete field: email',
       logMessage: 'Must complete field: email',
       serviceName: 'Validations - validateUserRegistration'
+    });
+
+    if (!this.emailRegex.test(email)) throw new InputError({
+      message: 'Invalid format: email',
+      logMessage: 'Invalid format: email',
+      serviceName: 'Validations - validateEmail'
     });
     
     if(!password) throw new InputError({
