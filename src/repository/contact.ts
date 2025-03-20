@@ -104,6 +104,7 @@ export default class ContactRepository extends PosgresRepository<InstanceType<ty
 
   mapResponseFromPg = (contact: Contact): IContactCreationBody => {
     return {
+      id: contact.id,
       name: contact.name,
       email: contact.email,
       birthdate: contact.birthdate,
