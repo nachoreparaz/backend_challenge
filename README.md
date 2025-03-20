@@ -1,6 +1,6 @@
 # backend_challenge
 
-Auth is implemented so for usage follow the steps:
+<h2>Auth is implemented so for usage follow the steps:</h2>
 
 1_ Register
 
@@ -18,14 +18,12 @@ body: {
   password: example
 }
 
-=====
-Use JWT token from login response as Bearer Token for the following endpoints
-=====
+<h4>Use JWT token from login response as Bearer Token for the following endpoints</h4>
 
 
-Contact Endpoint
+<h2>Contact Endpoint</h2>
 
-GET CONTACTS:
+<h3>GET CONTACTS:</h3>
 
 GET By id:
 
@@ -52,8 +50,8 @@ body: {
   city: 'Buenos Aires'
 }
 
-====== 
-CREATE CONTACTS:
+
+<h3>CREATE CONTACTS:</h3>
 
 POST Contact:
 
@@ -72,8 +70,7 @@ body:{
     }
 }
 
-====== 
-UPDATE CONTACTS:
+<h3>UPDATE CONTACTS:</h3>
 
 PATCH Contact:
 
@@ -92,16 +89,15 @@ body:{
     }
 }
 
-====== 
-DELETE CONTACTS:
+
+<h3>DELETE CONTACTS:</h3>
 
 DELETE Contact:
 
 url: challenge/contact/:id
 
 
-======
-SEND EMAIL TO CONTACTS:
+<h3>SEND EMAIL TO CONTACTS:</h3>
 
 POST Send Email
 
