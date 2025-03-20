@@ -11,6 +11,7 @@ export default class CityQueryStrategy implements QueryStrategy {
   buildQuery(): object {
     return {
       where:{
+        active: true,
         "$address.city$": this.city
       },
       include: [{ model: Address, as: "address" }]

@@ -11,7 +11,8 @@ export default class EmailQueryStrategy implements QueryStrategy {
   buildQuery(): object {
     return {
       where:{
-        email: this.email
+        email: this.email,
+        active: true,
       },
       include: [{ model: Address, as: "address" }]
     };

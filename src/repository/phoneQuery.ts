@@ -11,7 +11,8 @@ export default class PhoneQueryStrategy implements QueryStrategy {
   buildQuery(): object {
     return {
       where:{
-        phone: this.phone
+        phone: this.phone,
+        active: true,
       },
       include: [{ model: Address, as: "address" }]
     };
