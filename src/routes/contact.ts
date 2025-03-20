@@ -21,6 +21,7 @@ export default class ContactRouter {
     this.router.get(ROUTES.GET_BY_PHONE, this.validations.getByPhone,this.#controller.customGetOne);
     this.router.get(ROUTES.GET_BY_CITY, this.validations.validateCity, this.#controller.customGetAll);
     this.router.get(ROUTES.GET_CONTACT, this.validations.validateId, this.#controller.get);
+    this.router.post(ROUTES.SEND_EMAILS, this.validations.validateEmailSender, this.#controller.sendEmail);
     this.router.post(ROUTES.CREATE_CONTACT, this.validations.postContactBody, this.#controller.create);
     this.router.patch(ROUTES.UPDATE_CONTACT, this.validations.validateId, this.#controller.update);
     this.router.delete(ROUTES.DELETE_CONTACT, this.validations.validateId, this.#controller.delete);

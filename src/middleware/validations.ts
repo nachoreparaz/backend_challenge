@@ -148,4 +148,36 @@ export default class Validations {
     next();
   }
 
+  validateEmailSender = (req: Request, _res: Response, next: NextFunction) => {
+    const {email, message, subject} = req.body;
+    if(!email) throw new InputError({
+      message: 'Must complete field: email',
+      logMessage: 'Must complete field: email',
+      serviceName: 'Validations - validateEmailSender'
+    });
+    const emails = email.split(',');
+    for(const e of emails){
+      if (!this.emailRegex.test(e.trim())) throw new InputError({
+        message: `Invalid format: email(${e})`,
+        logMessage: `Invalid format: email(${e})`,
+        serviceName: 'Validations - validateEmail'
+      });
+    }
+
+    if(!message) throw new InputError({
+      message: 'Must complete field: message',
+      logMessage: 'Must complete field: message',
+      serviceName: 'Validations - validateEmailSender'
+    });
+
+    if(!subject) throw new InputError({
+      message: 'Must complete field: subject',
+      logMessage: 'Must complete field: subject',
+      serviceName: 'Validations - validateEmailSender'
+    });
+
+
+    next();
+  }
+
 }

@@ -5,6 +5,7 @@ import CityQueryStrategy from "../repository/cityQuery";
 import { InvalidBodyError } from "../errors";
 import EmailQueryStrategy from "../repository/emailQuery";
 import PhoneQueryStrategy from "../repository/phoneQuery";
+import mailSending from "../integration/mailSending";
 
 export default class ContactController {
   #service: ContactService;
@@ -65,7 +66,7 @@ export default class ContactController {
   }
 
   customGetAll = async (req: Request, res: Response, next: NextFunction) => {
-    const { city } = req.body;
+    const { city }: { city: string } = req.body;
 
     let strategy: QueryStrategy;
 
@@ -85,7 +86,7 @@ export default class ContactController {
   }
 
   customGetOne = async (req: Request, res: Response, next: NextFunction) => {
-    const { email, phone } = req.body;
+    const { email, phone }: {email: string, phone: string} = req.body;
 
     let strategy: QueryStrategy;
 
@@ -104,5 +105,24 @@ export default class ContactController {
     }
 
     res.status(200).send(contact);
+  }
+
+  sendEmail = async (req: Request, res: Response, next: NextFunction) => {
+    const { email, message, subject }: 
+    { email: string,  message: string, subject: string } = req.body;
+
+    const split_email = email.split(',');
+
+    for(const emails of split_email){
+      const strategy = new EmailQueryStrategy(emails.trim());
+
+      const contact = await this.#service.customFindOne(strategy);
+      if(contact instanceof Error) return next(contact);
+
+      mailSending.send(emails, message, subject, contact);
+    }
+
+    res.sendStatus(200)
+
   }
 }

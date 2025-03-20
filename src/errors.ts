@@ -82,6 +82,17 @@ class AuthError extends GeneralError {
   }
 }
 
+class MailSenderError extends GeneralError {
+  constructor(error: IError) {
+    super({
+        statusCode: error.statusCode || 500,
+        message: error.message || 'Error sending email',
+        logMessage: error.logMessage || 'Error sending email',
+        serviceName: error.serviceName,
+    });
+  }
+}
+
 const errorHandler = (err: IError, _req: Request, res: Response, next: NextFunction) => {
     console.log(err);
     res.status(err.statusCode || 500).send({
@@ -99,4 +110,5 @@ export {
   errorHandler,
   InvalidBodyError,
   AuthError,
+  MailSenderError,
 }
