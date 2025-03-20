@@ -37,6 +37,7 @@ Contact.init(
     phone: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
     },
     profile_image: {
       type: DataTypes.BLOB,
