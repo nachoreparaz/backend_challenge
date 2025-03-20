@@ -10,7 +10,6 @@ export default (req: Request, _res: Response, next: NextFunction) => {
     jwt.verify(token, CONFIG.JWT_SECRET);
     next()
   } catch (error) {
-    console.log(error)
     return next(new AuthError({ message: 'Invalid or expired token'}));
   }
 }

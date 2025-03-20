@@ -9,7 +9,6 @@ export default class UserRepository extends PosgresRepository<InstanceType<typeo
     try {
       await this.create(user);
     } catch (error) {
-      console.log('======\nREGISTER ERROR: ',error)
       SequelizeUniqueConstraintError
       if(error instanceof UniqueConstraintError){
         const message = error.errors[0].message;
@@ -33,7 +32,6 @@ export default class UserRepository extends PosgresRepository<InstanceType<typeo
 
       return user;
     } catch (error) {
-      console.log(error)
       if(error instanceof NotFound){
         throw error;
       }

@@ -37,7 +37,6 @@ export default class UserService {
     try {
       return await bcrypt.hash(password, Number(CONFIG.SALT));
     } catch (error) {
-      console.log(error)
       throw new GeneralError({
         logMessage: 'Error while hashing password',
         serviceName: 'hashPassword'
@@ -50,7 +49,6 @@ export default class UserService {
   }
 
   generateJWT = (id: number) => {
-    console.log('=============\n EXPIRATION: ', CONFIG.JWT_EXPIRED)
     return jwt.sign({ id }, CONFIG.JWT_SECRET, { expiresIn: '1h' });
   }
 }
